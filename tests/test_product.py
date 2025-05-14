@@ -8,7 +8,7 @@ def test_product_init(product1: Product) -> None:
     assert product1.quantity == 5
 
 
-def test_price_setter_positive():
+def test_price_setter_positive() -> None:
     product = Product("Телефон", "Смартфон", 50000.0, 10)
 
     product.price = 45000.0
@@ -16,7 +16,7 @@ def test_price_setter_positive():
     assert product.price == 45000.0
 
 
-def test_price_setter_non_positive(capsys):
+def test_price_setter_non_positive(capsys) -> None:
     product = Product("Телефон", "Смартфон", 50000.0, 10)
 
     product.price = -100.0
