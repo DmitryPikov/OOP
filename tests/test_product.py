@@ -1,6 +1,6 @@
 import pytest
 
-from src.product import Product
+from src.product import Product, Smartphone
 
 
 def test_product_init(product1: Product) -> None:
@@ -8,6 +8,28 @@ def test_product_init(product1: Product) -> None:
     assert product1.description == "256GB, Серый цвет, 200MP камера"
     assert product1.price == 180000.0
     assert product1.quantity == 5
+
+
+def test_smartphone_init(smartphone1: Smartphone) -> None:
+    assert smartphone1.name == "Samsung Galaxy S23 Ultra"
+    assert smartphone1.description == "256GB, Серый цвет, 200MP камера"
+    assert smartphone1.price == 180000.0
+    assert smartphone1.quantity == 5
+    assert smartphone1.efficiency == 95.5
+    assert smartphone1.model == "S23 Ultra"
+    assert smartphone1.color == "Серый"
+    assert isinstance(smartphone1, Product)
+
+
+def test_lawngrass_init(lawngrass1) -> None:
+    assert lawngrass1.name == "Газонная трава"
+    assert lawngrass1.description == "Элитная трава для газона"
+    assert lawngrass1.price == 500.0
+    assert lawngrass1.quantity == 20
+    assert lawngrass1.country == "Россия"
+    assert lawngrass1.germination_period == "7 дней"
+    assert lawngrass1.color == "Зеленый"
+    assert isinstance(lawngrass1, Product)
 
 
 def test_price_setter_positive() -> None:
@@ -18,7 +40,7 @@ def test_price_setter_positive() -> None:
     assert product.price == 45000.0
 
 
-def test_price_setter_non_positive(capsys) -> None:
+def test_price_setter_non_positive(capsys: pytest.CaptureFixture[str]) -> None:
     product = Product("Телефон", "Смартфон", 50000.0, 10)
 
     product.price = -100.0
@@ -58,6 +80,30 @@ def test_add_two_products() -> None:
     total = product1 + product2
 
     assert total == 2580000.0
+
+
+def test_add_two_smartphone(smartphone1, smartphone2) -> None:
+    total = smartphone1 + smartphone2
+    assert total == 2580000.0
+
+
+def test_add_two_lawngrass(lawngrass1, lawngrass2) -> None:
+    total = lawngrass1 + lawngrass2
+    assert total == 16750.0
+
+
+def test_add_with_non_smartphone_raises_error(smartphone1) -> None:
+    smartphone2 = 1
+
+    with pytest.raises(TypeError, match="Можно складывать только объекты класса Smartphone"):
+        smartphone1 + smartphone2
+
+
+def test_add_with_non_lawngrass_raises_error(lawngrass1) -> None:
+    lawngrass2 = 1
+
+    with pytest.raises(TypeError, match="Можно складывать только объекты класса LawnGrass"):
+        lawngrass1 + lawngrass2
 
 
 def test_add_with_zero_quantity() -> None:
