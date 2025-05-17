@@ -1,4 +1,5 @@
 from src.category import Category  # pragma: no cover
+
 from src.product import Smartphone, LawnGrass  # pragma: no cover
 
 if __name__ == '__main__': # pragma: no cover
