@@ -18,7 +18,7 @@ def test_price_setter_positive() -> None:
     assert product.price == 45000.0
 
 
-def test_price_setter_non_positive(capsys: pytest.CaptureFixture[str]) -> None:
+def test_price_setter_non_positive(capsys) -> None:
     product = Product("Телефон", "Смартфон", 50000.0, 10)
 
     product.price = -100.0
