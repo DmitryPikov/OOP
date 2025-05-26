@@ -13,7 +13,7 @@ def test_category_init(category1: Category) -> None:
     assert category1.category_count == 1
 
 
-def test_products_property(category1: 'Category', product1: 'Product', product2: 'Product') -> None:
+def test_products_property(category1: "Category", product1: "Product", product2: "Product") -> None:
     expected_output = "\n".join(
         [
             f"{product1.name}, {product1.price} руб. Остаток: {product1.quantity} шт.",
@@ -53,3 +53,15 @@ def test_category_str_with_no_products() -> None:
     expected_output = "Пустая категория, количество продуктов: 0 шт."
 
     assert str(category) == expected_output
+
+
+def test_middle_price_with_multiple_products(sample_products: list) -> None:
+    category = Category("Смартфоны", "Описание", sample_products)
+
+    assert category.middle_price() == 140333.33333333334
+
+
+def test_middle_price_with_zero_products() -> None:
+    category = Category("Категория", "Описание", [])
+
+    assert category.middle_price() == 0.0

@@ -5,6 +5,9 @@ class Product:
     quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+
         self.name = name
         self.description = description
         self.__price = price
@@ -22,7 +25,7 @@ class Product:
             self.__price = new_price
 
     @classmethod
-    def new_product(cls, product: dict) -> 'Product':
+    def new_product(cls, product: dict) -> "Product":
         return cls(
             name=product["name"],
             price=product["price"],
@@ -33,7 +36,7 @@ class Product:
     def __str__(self) -> str:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
-    def __add__(self, other: 'Product') -> float:
+    def __add__(self, other: "Product") -> float:
         if isinstance(other, Product):
             return self.price * self.quantity + other.price * other.quantity
         else:
@@ -41,15 +44,24 @@ class Product:
 
 
 class Smartphone(Product):
-    def __init__(self, name: str, description: str, price: float, quantity: int, efficiency: float, model: str,
-                 memory: int, color: str):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
         self.memory = memory
         self.color = color
 
-    def __add__(self, other: 'Smartphone') -> float:
+    def __add__(self, other: "Smartphone") -> float:
         if type(other) is Smartphone:
             return self.price * self.quantity + other.price * other.quantity
         else:
@@ -57,14 +69,22 @@ class Smartphone(Product):
 
 
 class LawnGrass(Product):
-    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: str,
-                 color: str):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
         super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
         self.color = color
 
-    def __add__(self, other: 'LawnGrass') -> float:
+    def __add__(self, other: "LawnGrass") -> float:
         if type(other) is LawnGrass:
             return self.price * self.quantity + other.price * other.quantity
         else:

@@ -1,6 +1,6 @@
 import pytest
 
-from src.product import Product, Smartphone
+from src.product import Product, Smartphone, LawnGrass
 
 
 def test_product_init(product1: Product) -> None:
@@ -21,7 +21,7 @@ def test_smartphone_init(smartphone1: Smartphone) -> None:
     assert isinstance(smartphone1, Product)
 
 
-def test_lawngrass_init(lawngrass1) -> None:
+def test_lawngrass_init(lawngrass1: LawnGrass) -> None:
     assert lawngrass1.name == "Газонная трава"
     assert lawngrass1.description == "Элитная трава для газона"
     assert lawngrass1.price == 500.0
@@ -82,24 +82,24 @@ def test_add_two_products() -> None:
     assert total == 2580000.0
 
 
-def test_add_two_smartphone(smartphone1, smartphone2) -> None:
+def test_add_two_smartphone(smartphone1: Smartphone, smartphone2: Smartphone) -> None:
     total = smartphone1 + smartphone2
     assert total == 2580000.0
 
 
-def test_add_two_lawngrass(lawngrass1, lawngrass2) -> None:
+def test_add_two_lawngrass(lawngrass1: LawnGrass, lawngrass2: LawnGrass) -> None:
     total = lawngrass1 + lawngrass2
     assert total == 16750.0
 
 
-def test_add_with_non_smartphone_raises_error(smartphone1) -> None:
+def test_add_with_non_smartphone_raises_error(smartphone1: Smartphone) -> None:
     smartphone2 = 1
 
     with pytest.raises(TypeError, match="Можно складывать только объекты класса Smartphone"):
         smartphone1 + smartphone2
 
 
-def test_add_with_non_lawngrass_raises_error(lawngrass1) -> None:
+def test_add_with_non_lawngrass_raises_error(lawngrass1: LawnGrass) -> None:
     lawngrass2 = 1
 
     with pytest.raises(TypeError, match="Можно складывать только объекты класса LawnGrass"):
@@ -108,10 +108,10 @@ def test_add_with_non_lawngrass_raises_error(lawngrass1) -> None:
 
 def test_add_with_zero_quantity() -> None:
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 0)
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 1)
     total = product1 + product2
 
-    assert total == 900000.0
+    assert total == 1110000.0
 
 
 def test_add_with_non_product_raises_error() -> None:
@@ -120,3 +120,10 @@ def test_add_with_non_product_raises_error() -> None:
 
     with pytest.raises(TypeError, match="Можно складывать только объекты класса Product"):
         product1 + product2
+
+
+def test_product_zero_quantity_raises_value_error() -> None:
+    with pytest.raises(ValueError) as excinfo:
+        Product(name="Продукт", description="Описание", price=100.0, quantity=0)
+
+    assert str(excinfo.value) == "Товар с нулевым количеством не может быть добавлен"
